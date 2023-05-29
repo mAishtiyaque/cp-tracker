@@ -31,7 +31,7 @@ a:hover{
 
 .main{
   font-family:  monospace;
-  font-family: Merriweather;
+  font-family: Montserrat;
   letter-spacing: 1px;
   margin: 0 calc(20vw - 100px);
 }
@@ -39,11 +39,14 @@ h3, h4, h5, h6{
   padding: 0;
   margin:0;
 }
+h1{
+  margin-bottom: .6em;
+  text-decoration: underline .5pc;
+}
 button {
   font-size: .9rem;
   font-weight: 600;
   border: 1.5px solid hsl(0, 0%, 83%);
-  letter-spacing: 1px;
   padding: .5em 1em;
   margin: .5em 0;
 }
