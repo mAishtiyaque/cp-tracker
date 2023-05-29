@@ -69,6 +69,8 @@ export default async function handler(req, res) {
             return;
 
         case 'test':
+
+ 
             res.json({Test:1,text:'Hello Hello Hello... CCC'})
         }
 
