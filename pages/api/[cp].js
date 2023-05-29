@@ -68,7 +68,10 @@ export default async function handler(req, res) {
             res.json(myUpdate)
             return;
 
+        case 'test':
+            res.json({Test:1,text:'Hello Hello Hello... CCC'})
         }
+
         res.json('No One Responded!')
     // switch (req.method) {
     //     case "POST":
