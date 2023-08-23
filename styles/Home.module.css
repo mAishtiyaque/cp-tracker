@@ -7,3 +7,40 @@
   min-height: 100vh;
 }
 
+.cont_bar {
+  margin: 0 1.5em;
+  width: 33px;
+  height: 32px;
+  padding-top: 0.1px;
+  background-color: #d2ecf3;
+}
+.bar {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  background-color: rgb(140, 21, 251);
+  margin: 2px 0;
+}
+.bar span {
+  scale: 1.1;
+  position: absolute;
+  content: '';
+  background-color: #d2ecf3;
+  height: 100%;
+  width: 2px;
+  left: 0%;
+  animation: move 2s infinite ease;
+  animation-delay: 0s;
+}
+@keyframes move {
+  0%{
+      left:0%
+  }
+  50%{
+      left:calc(100% - 2px)
+  }
+  100%{
+      left:0%
+  }
+  
+}

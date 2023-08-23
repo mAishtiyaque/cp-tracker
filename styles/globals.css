@@ -62,6 +62,8 @@ button:active {
 }
 
 .alert {
+  position: relative;
+  z-index:2000;
   box-sizing: border-box;
   display:grid;
   place-items: center;
@@ -83,8 +85,8 @@ button:active {
   color:rgb(27, 26, 26);
 }
 .danger{
-  background-color:#f96b6b;
-  color:white;
+  background-color:#fbe9e7;
+  color:#c62828;
 }
 .info{
   background-color:#6bddf9;
@@ -92,4 +94,163 @@ button:active {
 }
 li{
   margin: .5em 1.5em ;
+}
+
+
+
+
+
+
+
+/* FOR Login*/
+
+.mmodal {
+  /* // makes it hover above all elements */
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left:0;
+  right:0;
+  background-color: #000000b3;
+  color:black;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+
+.mmodal-body {
+  background: #fff;
+  margin: 6vw;
+  font-family: sans-serif;
+  position: relative;
+}
+
+.close{
+  position: absolute;
+  right: 6px;
+  top:6px;
+}
+.close > button{
+  border:none;
+  cursor: pointer;
+  background-color:transparent;
+  font-weight: 600;
+  color: #e10e0e;
+  margin: 0;
+  padding: 0;
+}
+
+
+.main2 {
+  margin: 1em;
+  margin-top: 1.8em;
+  padding: 3px;
+  overflow: hidden;
+  /* border: 2px solid red; */
+  width: calc(8vw + 240px)
+}
+
+.thirdparty {
+  display: flex;
+  flex-direction: column;
+  gap: .7em;
+
+}
+
+.thirdparty>div {
+  padding: .3em .5em;
+  border: 1.5px solid #727272;
+  border-radius: 5px;
+  display: flex;
+  font-weight: 700;
+}
+
+.thirdparty>div span:nth-child(2) {
+  margin-left: 1.5em;
+}
+
+.horizon {
+  position: relative;
+  height: 1px;
+  background-color: #727272;
+  border-radius: 2px;
+  margin: 1.2em 0;
+}
+
+.horizon::after {
+  content: 'or';
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 5px;
+  font-size: .8em;
+  font-weight: 700;
+}
+.trans{
+  width: calc(200% + 10px);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-left:0px;
+  transition: margin .5s;
+  /* animation: logReg 4s infinite  ; */
+}
+.marginleft{
+  margin-left: calc(-100% - 10px);
+}
+.userpass {
+  display: flex;
+  flex-direction: column;
+}
+
+.userpass button[class='signin'] {
+  padding: .6em;
+  background-color: #7bf896;
+  border-radius: 4px;
+
+}
+
+.userpass button[class='forgot'] {
+  padding: .6em;
+  text-align: left;
+  color: blue;
+  padding-left: 0;
+}
+
+.userpass input {
+  margin-bottom: .5em;
+  height: 26px;
+}
+
+.userpass input[type="checkbox"] {
+  height: 18px;
+  width: 18px;
+  margin: 1em 0;
+}
+
+.userpass span {
+  display: inline-block;
+  font-size: .7em;
+  margin-left: 5px;
+  transform: translateY(-6px);
+}
+
+.signup {
+  text-align: center;
+  font-size: .9em;
+  margin: 1em 0;
+}
+
+.signup button {
+  color: blue;
+}
+
+* button[class='forgot']:active,
+* button:active {
+  color: transparent;
 }
