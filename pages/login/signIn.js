@@ -156,7 +156,7 @@ const SignUpPage = ({setCredential,setPageName,alertMe}) => {
   const [email, setEmail] = useState("maishtiyaque@gmail.com");
   const [passwordOne, setPasswordOne] = useState("123456");
   const [passwordTwo, setPasswordTwo] = useState("123456");
-  const [photoUrl, setPhotoUrl] = useState("https://picsum.photos/id/102/150");
+  const [photoUrl, setPhotoUrl] = useState("https://picsum.photos/id/100/150");
   // const router = useRouter();
   // const [error, setError] = useState(null);
   const { SignUp, SendEmailVerification,UpdateProfile } = useAuth();
