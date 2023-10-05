@@ -1,30 +1,30 @@
-import Head from 'next/head'
-import { useEffect, useState } from 'react';
+import Head from "next/head";
+import { useEffect, useState } from "react";
 // import Image from 'next/image'
-import styles from '@/styles/Home.module.css'
-import Cp from './cp.js'
-import { useAuth} from '@/lib/AuthUserContext';
-import LoginBtn from './login/LoginBtn.js';
- 
+import styles from "@/styles/Home.module.css";
+import Cp from "./cp.js";
+import { useAuth } from "@/lib/AuthUserContext";
+import UserProfile from "./login/userProfile.js";
+
 export default function Home() {
   const [alert, setAlert] = useState({}); //default alert remove
   // text:'TEXT',class:'info'
-  const alertMe = (text = '', className = 'info') => {
-    setAlert({ class: className, text })
+  const alertMe = (text = "", className = "info") => {
+    setAlert({ class: className, text });
     setTimeout(() => {
-      setAlert({})
-    }, 3000)
-  }
+      setAlert({});
+    }, 3000);
+  };
   const colors = [
-    '#581b98',
-    '#43dde6',
-    '#3d5af1',
-    '#9e579d',
-    '#fc5ffc',
-    '#1aaeac',
-    '#faee1c',
-  ]
-  
+    "#581b98",
+    "#43dde6",
+    "#3d5af1",
+    "#9e579d",
+    "#fc5ffc",
+    "#1aaeac",
+    "#faee1c",
+  ];
+
   return (
     <>
       <Head>
@@ -33,32 +33,41 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.png" />
       </Head>
-        {/* <script src="http://localhost:8097"></script> */}
-        <main className='main'>
-          <div className={'alert ' + alert.class}>{alert.text}</div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+      {/* <script src="http://localhost:8097"></script> */}
+      <main className="main">
+        <div className={"alert " + alert.class}>{alert.text}</div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display:'flex',alignItems: 'center'}}>
             <div className={styles.cont_bar}>
-              {
-                [.3, .1, 1.5, .4, 0, .7].map((i, idx) =>
-                  <div className={styles.bar} style={{ background: `${colors[idx]}` }} key={idx}>
-                    <span
-                      style={{
-                        animationDuration: `${1.8 + i + 's'}`,
-                        animationDelay: `${'-' + i + 's'}`
-                      }}
-                    ></span>
-                  </div>
-                )
-              }
-            </div >
+              {[0.3, 0.1, 1.5, 0.4, 0, 0.7].map((i, idx) => (
+                <div
+                  className={styles.bar}
+                  style={{ background: `${colors[idx]}` }}
+                  key={idx}
+                >
+                  <span
+                    style={{
+                      animationDuration: `${1.8 + i + "s"}`,
+                      animationDelay: `${"-" + i + "s"}`,
+                    }}
+                  ></span>
+                </div>
+              ))}
+            </div>
             <h1>CP TRACKER</h1>
-            <LoginBtn alertMe={alertMe}/>
           </div>
-          <div >
-
-            <Cp alertMe={alertMe} />
-          </div>
-        </main>
+          <UserProfile alertMe={alertMe} />
+        </div>
+        <div>
+          <Cp alertMe={alertMe} />
+        </div>
+      </main>
     </>
-  )
+  );
 }

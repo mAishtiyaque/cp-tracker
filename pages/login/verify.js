@@ -5,8 +5,8 @@ import { useAuth } from '@/lib/AuthUserContext';
 // import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
 
-function VerifyEmail({ setCredential, credential, closeDialog, alertMe = () => { } }) {
-  const { SendEmailVerification, Reload, emailVerified, email, token, exe } = useAuth();
+function VerifyEmail({ setCredential, closeDialog, alertMe = () => { } }) {
+  const { SendEmailVerification, Reload, emailVerified, email, token } = useAuth();
 
   // const {currentUser} = useAuthValue()
   const [time, setTime] = useState(60)
@@ -27,12 +27,13 @@ function VerifyEmail({ setCredential, credential, closeDialog, alertMe = () => {
         })
     }, 2000)
     return () => clearInterval(interval)
+    // eslint-disable-next-line
   }, [email])
   useEffect(() => {
     // console.log('Verify Changed', emailVerified)
     if (emailVerified) {
       axios.post('api/set_new_user', {
-        data: { ...credential, idToken: token }
+        data: { email, token }
       }).then(res => {
         console.log(">>> res ", res)
         // (res.data.acknowledged) ? alertMe('Verified User!', 'success') : null // success
@@ -42,6 +43,7 @@ function VerifyEmail({ setCredential, credential, closeDialog, alertMe = () => {
       })
       closeDialog();
     }
+    // eslint-disable-next-line
   }, [emailVerified])
 
   useEffect(() => {

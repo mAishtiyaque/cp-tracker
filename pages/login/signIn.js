@@ -5,8 +5,8 @@ import axios from 'axios';
 import { Container } from 'reactstrap';
 
 export default function SignInPage({setCredential, closeDialog, setPageName, alertMe }) {
-  const [email, setEmail] = useState("ishtiyaque4755@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { SignIn, SendEmailVerification,SignOut } = useAuth();
   const setLoginToken = (email, token) => {
     axios.post('api/set_login_token', {
@@ -16,19 +16,11 @@ export default function SignInPage({setCredential, closeDialog, setPageName, ale
       }
     })
   }
-  // const TestFunc = (token) => {
-  //   axios.post('api/test', {
-  //     data: {
-  //       idToken:token
-  //     }
-  //   })
-  // }
+
   const onSubmit = event => {
     // setError(null)
     SignIn(email, password)
       .then(authUser => {
-        // console.log(authUser.user.emailVerified)
-        // TestFunc(authUser.user.accessToken);
         if (!authUser.user.emailVerified) {
           SendEmailVerification()
             .then(() => {
@@ -152,11 +144,11 @@ export default function SignInPage({setCredential, closeDialog, setPageName, ale
 }
 
 const SignUpPage = ({setCredential,setPageName,alertMe}) => {
-  const [newName, setNewName] = useState("Md Owaid Raza");
-  const [email, setEmail] = useState("maishtiyaque@gmail.com");
-  const [passwordOne, setPasswordOne] = useState("123456");
-  const [passwordTwo, setPasswordTwo] = useState("123456");
-  const [photoUrl, setPhotoUrl] = useState("https://picsum.photos/id/102/150");
+  const [newName, setNewName] = useState("");
+  const [email, setEmail] = useState("");
+  const [passwordOne, setPasswordOne] = useState("");
+  const [passwordTwo, setPasswordTwo] = useState("");
+  const [photoUrl, setPhotoUrl] = useState("");
   // const router = useRouter();
   // const [error, setError] = useState(null);
   const { SignUp, SendEmailVerification,UpdateProfile } = useAuth();
