@@ -21,7 +21,6 @@ export default function Listview({ alertMe }) {
   const getProb = async () => {
     axios.get('api/get_prob', {
       params: {
-        token: auth?.token,
         email: auth?.email
       }
     })
@@ -30,7 +29,7 @@ export default function Listview({ alertMe }) {
         if (probData.length)
           setPreProb(item => [{ active: false, prob: probData }, ...item])
         setProbData(() => resp.data)
-      })
+      }).catch(err => console.log('Err: ', err))
   }
   const getProbCnt = async () => {
     axios.get('api/get_prob_cnt')
@@ -39,7 +38,7 @@ export default function Listview({ alertMe }) {
         // console.log(data)
         setProbMeta(item => { return { ...item, ...data[0] } })
       })
-      .catch(error => console.error(error));
+      .catch(error => console.error('Err: ', error));
   }
   const getSolvedCnt = async () => {
     axios.get('api/get_solved_cnt', {
@@ -53,32 +52,33 @@ export default function Listview({ alertMe }) {
         //console.log(data)
         setProbMeta(item => { return { ...item, ...data[0] } })
       })
-      .catch(error => console.error(error));
+      .catch(err => console.error("Err: ",err));
   }
   useEffect(() => {
-    // getProb()
+    getProb()
     getProbCnt()
   }, [])
 
   useEffect(() => {
     if (auth.email) {
       getSolvedCnt()
-      getProb()
+      // getProb()
     }
     //console.log(auth)
   }, [auth?.email])
   const TestFunc = (token) => {
     axios.post('api/test', {
       data: {
-        idToken:auth?.token,
-        email:auth?.email
+        idToken: auth?.token,
+        email: auth?.email
       }
-    })
+    }).then((res) => console.log(res), (err) => console.log(err))
   }
   return (
     <div>
     // auth.setExe('Hello World'+new Date().getTime()),1000)
-      <button onClick={() => setInterval(()=>TestFunc('hello'),4000)}>GET</button>
+      {/* <button onClick={() => setInterval(()=>TestFunc('hello'),4000)}>TEST Token</button> */}
+      <button onClick={() => TestFunc('hello')}>TEST Token</button>
       {/* {JSON.stringify(auth)}*/} <br />
       {auth?.name} <br />
       {auth?.email} <br />
@@ -88,9 +88,9 @@ export default function Listview({ alertMe }) {
           <svg stroke="currentColor" fill="#7d6cf0" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path d="M23 12l-2.44-2.79.34-3.69-3.61-.82-1.89-3.2L12 2.96 8.6 1.5 6.71 4.69 3.1 5.5l.34 3.7L1 12l2.44 2.79-.34 3.7 3.61.82L8.6 22.5l3.4-1.47 3.4 1.46 1.89-3.19 3.61-.82-.34-3.69L23 12zm-12.91 4.72l-3.8-3.81 1.48-1.48 2.32 2.33 5.85-5.87 1.48 1.48-7.33 7.35z"></path></svg>      </>
         : "Anonmous"} <br />
       {/* {auth?.photoURL} <br /> */}
-      <img src={auth?.photoURL} alt="" /> 
+      <img src={auth?.photoURL} alt="" />
       <pre>
-      {JSON.stringify(auth,null,'   ')}
+        {JSON.stringify(auth, null, '   ')}
       </pre>
       <div className={styles.listViewWrapper} >
         <div className={styles.range}>
@@ -99,7 +99,7 @@ export default function Listview({ alertMe }) {
         </div>
         {
           probData?.map((item, idx) =>
-            <SenceRow senceDetails={item} alertMe={alertMe} key={ item._id} />
+            <SenceRow senceDetails={item} alertMe={alertMe} key={item._id} />
           )
         }
       </div>
@@ -125,15 +125,15 @@ export default function Listview({ alertMe }) {
     </div>
   )
 }
-function ToggleGr({ prob, alertMe,idx }) {
+function ToggleGr({ prob, alertMe, idx }) {
   const [active, setActive] = useState(prob.active)
   return (
     <div className={styles.toggleGr}>
       {/* {JSON.stringify(prob)} */}
 
       <div className={styles.preHead}>
-        <div>{prob.prob[0].Topic} 
-        <span style={{ fontWeight: 400 }}> | </span> {prob.prob[1].Topic} <span style={{ fontWeight: 400 }}> | </span> {prob.prob[2].Topic}
+        <div>{prob.prob[0].Topic}
+          <span style={{ fontWeight: 400 }}> | </span> {prob.prob[1].Topic} <span style={{ fontWeight: 400 }}> | </span> {prob.prob[2].Topic}
         </div>
         <button
           onClick={() => setActive(item => !item)}
@@ -146,7 +146,7 @@ function ToggleGr({ prob, alertMe,idx }) {
         active &&
         <>{
           prob.prob?.map((item, idx2) =>
-            <SenceRow senceDetails={item} alertMe={alertMe} key={ item._id+idx+idx2 } />
+            <SenceRow senceDetails={item} alertMe={alertMe} key={item._id + idx + idx2} />
           )}
         </>
       }
@@ -166,7 +166,7 @@ function SenceRow({ senceDetails, alertMe }) {
       }
     }).then(res => {
       (res.data.acknowledged) ? alertMe('Updated Solved!', 'success') : null // success
-    }, err => {
+    }).catch(err => {
       alertMe('Something going wrong') // failure
     })
   }

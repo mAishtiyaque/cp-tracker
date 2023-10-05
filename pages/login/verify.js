@@ -5,8 +5,8 @@ import { useAuth } from '@/lib/AuthUserContext';
 // import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
 
-function VerifyEmail({setCredential,credential, closeDialog, alertMe = () => { } }) {
-  const { SendEmailVerification, Reload, emailVerified,email,exe} = useAuth();
+function VerifyEmail({ setCredential, credential, closeDialog, alertMe = () => { } }) {
+  const { SendEmailVerification, Reload, emailVerified, email, token, exe } = useAuth();
 
   // const {currentUser} = useAuthValue()
   const [time, setTime] = useState(60)
@@ -15,29 +15,29 @@ function VerifyEmail({setCredential,credential, closeDialog, alertMe = () => { }
   useEffect(() => {
     const interval = setInterval(() => {
       Reload()
-      .then((res) => {
-        // console.log(res,'>>>',emailVerified,exe)
-        if(emailVerified){
-         clearInterval(interval)
-          closeDialog();
-        }
-      })
-      .catch((err) => {
-        alertMe(err.message,'danger');
-      })
+        .then((res) => {
+          // console.log(res,'>>>',emailVerified,exe)
+          if (emailVerified) {
+            clearInterval(interval)
+            closeDialog();
+          }
+        })
+        .catch((err) => {
+          alertMe(err.message, 'danger');
+        })
     }, 2000)
-    return ()=>clearInterval(interval)
+    return () => clearInterval(interval)
   }, [email])
   useEffect(() => {
-     // console.log('Verify Changed', emailVerified)
+    // console.log('Verify Changed', emailVerified)
     if (emailVerified) {
       axios.post('api/set_new_user', {
-        data: credential
+        data: { ...credential, idToken: token }
       }).then(res => {
-        console.log(">>> res ",res)
+        console.log(">>> res ", res)
         // (res.data.acknowledged) ? alertMe('Verified User!', 'success') : null // success
         setCredential({});
-      }, err => {
+      }).catch(err => {
         alertMe('Something going wrong') // failure
       })
       closeDialog();

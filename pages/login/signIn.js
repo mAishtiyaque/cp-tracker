@@ -5,8 +5,8 @@ import axios from 'axios';
 import { Container } from 'reactstrap';
 
 export default function SignInPage({setCredential, closeDialog, setPageName, alertMe }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("ishtiyaque4755@gmail.com");
+  const [password, setPassword] = useState("123456");
   const { SignIn, SendEmailVerification,SignOut } = useAuth();
   const setLoginToken = (email, token) => {
     axios.post('api/set_login_token', {
