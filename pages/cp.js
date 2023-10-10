@@ -1,5 +1,5 @@
 import styles from "@/styles/ListView.module.css";
-import { useEffect, useRef, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/AuthUserContext";
 import axios from "axios";
 export default function Listview({ alertMe }) {
@@ -188,7 +188,7 @@ function SenceRow({ senceDetails, alertMe }) {
       });
   };
   useEffect(() => {
-    //console.log("SENCES ", senceDetails.status[0])
+    console.log("SENCES ", senceDetails);
   }, []);
   const [isSolved, setIsSolved] = useState(senceDetails.status[0]);
   const handleSolved = () => {
@@ -200,20 +200,33 @@ function SenceRow({ senceDetails, alertMe }) {
   };
   return (
     <div className={styles.listRow}>
-      <div>{senceDetails.Topic}</div>
-      <div>
+      <div
+        className={ styles.star+" "+
+          senceDetails.Rating === 1
+            ? styles.star_1
+            : senceDetails.Rating === 2
+            ? styles.star_2
+            :  senceDetails.Rating===3
+            ? styles.star_3
+            :  senceDetails.Rating===4
+            ? styles.star_4
+            :  senceDetails.Rating===5
+            ? styles.star_5
+            : null
+        }
+      >
+        {senceDetails.Topic}
+      </div>
+      <div className={styles.prob_div}>
         <input
           onClick={handleSolved}
           type="checkbox"
           defaultChecked={isSolved}
         />
-      </div>
-      <div>
         <a href={senceDetails.Link} target="_blank">
           {senceDetails.Prob}
         </a>
       </div>
-      <div className={styles.rating}>{senceDetails.Rating}</div>
     </div>
   );
 }

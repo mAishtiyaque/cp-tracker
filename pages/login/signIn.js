@@ -1,22 +1,10 @@
 import { useRef, useState } from 'react';
-
 import { useAuth } from '@/lib/AuthUserContext';
-import axios from 'axios';
-import { Container } from 'reactstrap';
 
-export default function SignInPage({setCredential, closeDialog, setPageName, alertMe }) {
+export default function SignInPage({ closeDialog, setPageName, alertMe }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { SignIn, SendEmailVerification,SignOut } = useAuth();
-  const setLoginToken = (email, token) => {
-    axios.post('api/set_login_token', {
-      data: {
-        email,
-        token
-      }
-    })
-  }
-
   const onSubmit = event => {
     // setError(null)
     SignIn(email, password)
@@ -26,13 +14,11 @@ export default function SignInPage({setCredential, closeDialog, setPageName, ale
             .then(() => {
               // setTimeActive(true)
               setPageName('emailverify');
-              setCredential({email,password});
             })
             .catch(err => alertMe(err.message, 'danger'))
         } else {
           closeDialog();
           alertMe('Logged In Success!', 'success')
-          setLoginToken(authUser?.user.email, authUser?.user.accessToken);
         }
       })
       .catch(error => {
@@ -132,7 +118,7 @@ export default function SignInPage({setCredential, closeDialog, setPageName, ale
           </div>
         </div>
         <div>
-          <SignUpPage setCredential={setCredential} setPageName={setPageName} alertMe={alertMe} />
+          <SignUpPage setPageName={setPageName} alertMe={alertMe} />
           <div className="signup">Already a member?
             <button onClick={() => transLogReg('signin')}>Sign In </button>
           </div>
@@ -143,7 +129,7 @@ export default function SignInPage({setCredential, closeDialog, setPageName, ale
   )
 }
 
-const SignUpPage = ({setCredential,setPageName,alertMe}) => {
+const SignUpPage = ({setPageName,alertMe}) => {
   const [newName, setNewName] = useState("");
   const [email, setEmail] = useState("");
   const [passwordOne, setPasswordOne] = useState("");
@@ -166,7 +152,6 @@ const SignUpPage = ({setCredential,setPageName,alertMe}) => {
                   console.log("Success. The user is created in Firebase",authUser)
                   // setTimeActive(true) // for resend
                   setPageName('emailverify');
-                  setCredential({email,password:passwordOne});
 
                 }).catch((err) => alertMe(err.message, 'danger'))
             })

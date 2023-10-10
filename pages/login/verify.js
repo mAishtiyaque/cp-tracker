@@ -5,7 +5,7 @@ import { useAuth } from '@/lib/AuthUserContext';
 // import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
 
-function VerifyEmail({ setCredential, closeDialog, alertMe = () => { } }) {
+function VerifyEmail({ closeDialog, alertMe = () => { } }) {
   const { SendEmailVerification, Reload, emailVerified, email, token } = useAuth();
 
   // const {currentUser} = useAuthValue()
@@ -37,7 +37,6 @@ function VerifyEmail({ setCredential, closeDialog, alertMe = () => { } }) {
       }).then(res => {
         console.log(">>> res ", res)
         // (res.data.acknowledged) ? alertMe('Verified User!', 'success') : null // success
-        setCredential({});
       }).catch(err => {
         alertMe('Something going wrong') // failure
       })

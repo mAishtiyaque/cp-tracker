@@ -35,6 +35,14 @@ a:hover{
   letter-spacing: 1px;
   margin: 0 calc(20vw - 100px);
 }
+@media screen and (max-width: 600px) {
+  html{
+    font-size: 85%;
+  }
+  .main {
+    margin: 0 5px;
+  }
+}
 h3, h4, h5, h6{
   padding: 0;
   margin:0;
@@ -96,12 +104,6 @@ li{
   margin: .5em 1.5em ;
 }
 
-
-
-
-
-
-
 /* FOR Login*/
 
 .mmodal {
@@ -119,7 +121,6 @@ li{
   justify-content: flex-start;
   align-items: center;
 }
-
 
 
 .mmodal-body {
@@ -220,6 +221,8 @@ li{
   text-align: left;
   color: blue;
   padding-left: 0;
+  background-color: transparent;
+  border: none;
 }
 
 .userpass input {

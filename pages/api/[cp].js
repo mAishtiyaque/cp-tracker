@@ -1,53 +1,13 @@
 import clientPromise from "@/lib/mongodb";
-import app from "@/lib/firebase";
-
-// import { ObjectId } from "mongodb";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-  // createUserWithEmailAndPassword,
-  // signOut,
-  // sendEmailVerification,
-  // updateProfile
-} from "firebase/auth";
 import admin from "@/lib/fireAdmin";
 import { getApp } from "firebase-admin/app";
-// import credentials from './../../credentials.json'
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-console.log("**************************************");
+//console.log("**************************************");
 
 export function John(req, res) {
   res.status(200).json({ name: "John Doe" });
-}
-// this is working perfect but we can verify new user by idToken i.e using TokenValidator function
-async function ValidateNewUser(email, password, db, col_name) {
-  const auth = getAuth(app);
-  // console.log(">>> ",auth)
-  signInWithEmailAndPassword(auth, email, password).then(
-    async ({ user }) => {
-      // console.log(">>> ", Object.keys(user));
-      if (user.uid && user.email && user.emailVerified) {
-        let myUpdate2 = await db.collection("User" + col_name).insertOne({
-          email,
-          tokens: [],
-        });
-        if (myUpdate2.insertedId) {
-          signOut(auth).then(
-            (res) => res,
-            (err) => err
-          );
-        }
-      }
-      return "No operation";
-    },
-    (err) => {
-      console.log(">>> ", err);
-      return "No operation";
-    }
-  );
 }
 // it verify user token using admin level previledge
 async function TokenValidator(idToken, email = "") {
@@ -79,8 +39,7 @@ async function TokenValidator(idToken, email = "") {
 export default async function handler(req, res) {
   const { cp } = req.query;
   try {
-    const client = await clientPromise;
-    console.log("Suc: MongoDB connected!!!");
+    const client = await clientPromise;    
     const db = client.db("CompPro");
     const col_name = "BabbarSheet";
     //const auth= getAuth(app);
@@ -155,8 +114,6 @@ export default async function handler(req, res) {
       case "get_solved_cnt": {
         if ((req.method !== "GET") | (req.query.email === null))
           res.json("Not Valid");
-        // let myUpdate4;
-        // tokenExists = await db.collection('User' + col_name).findOne({ email: req.query.email, tokens: req.query.token });
         const { email, token } = req.query;
         const isValidToken1 = await TokenValidator(token, email);
         if (isValidToken1) {
@@ -166,6 +123,7 @@ export default async function handler(req, res) {
               {
                 $match: {
                   email,
+                  status:true
                   // email: 'ishtiyaque4755@gmail.com'
                 },
               },
@@ -189,8 +147,6 @@ export default async function handler(req, res) {
         bodyObject = req.body;
         const { id, email, token, status } = bodyObject.data;
         // console.log(">>>Hello Update", id, email, status)
-        // let myUpdate4;
-        // tokenExists = await db.collection('User' + col_name).findOne({ email: email, tokens: token });
         const isValidToken2 = await TokenValidator(token, email);
         if (isValidToken2) {
           result = await db.collection("Solved" + col_name).updateOne(
@@ -212,48 +168,19 @@ export default async function handler(req, res) {
         // console.log(myUpdate4)
         return;
       }
-      case "set_login_token":
-        if (req.method !== "POST") res.json("Not Valid");
-        //console.log(bodyObject.data.email, bodyObject.data.token)
-        // let myUpdate2 = await db.collection('User' + col_name).updateOne(
-        //     { email: bodyObject.data.email },
-        //     {
-        //         $push: { "tokens": bodyObject.data.token },
-        //         $currentDate: { lastModified: true }
-        //     }
-        // );
-
-        // res.json(myUpdate2)
-        res.json({ message: "May no use of this API" });
-
-        return;
-      case "remove_login_token":
-        if (req.method !== "POST") res.json("Not Valid");
-        //console.log(bodyObject.data.email, bodyObject.data.token)
-        // let myUpdate3 = await db.collection('User' + col_name).updateOne(
-        //     { email: bodyObject.data.email },
-        //     {
-        //         $pull: { "tokens": bodyObject.data.token },
-        //     }
-        // );
-        // res.json(myUpdate3)
-        res.json({ message: "May no use of this API" });
-        return;
       case "set_new_user": {
         if (req.method !== "POST") res.json("Not Valid");
-        // let userStatus = await ValidateNewUser(bodyObject.data.email, bodyObject.data.password, db, col_name);
         //res.json(userStatus)
         const { email, token } = bodyObject.data;
         const isValidUser1 = await TokenValidator(token, email);
         if (isValidUser1) {
           let userStatus = await db.collection("User" + col_name).insertOne({
-            email,
-            tokens: [],
+            email
           });
           if (userStatus.insertedId) {
             console.log("User Added!");
           }
-          console.log(userStatus);
+          // console.log(userStatus);
           res.json(userStatus);
         } else res.status(500).json({ message: "Something goes wrong!" });
         return;
@@ -264,13 +191,6 @@ export default async function handler(req, res) {
           bodyObject.data.email
         );
         console.log("Is valid user ", isValidUser);
-        let userStatus2 = await ValidateNewUser(
-          "maishtiyaque@gmail.com",
-          "123456",
-          db,
-          col_name
-        );
-        console.log("userStatus ", userStatus2);
         res.json({ Test: 1, text: "Hello Hello Hello... CCC", isValidUser });
         return;
     }

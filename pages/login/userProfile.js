@@ -9,7 +9,8 @@ export default function UserProfile({ alertMe }) {
     <div>
       <div className={styles.user_details}>
         {auth.email && (
-          <div className={styles.user}>
+          // <div className={styles.user}>
+          <>
             <div className={styles.avatar}>
               {auth.photoURL && (
                 <Image
@@ -39,7 +40,8 @@ export default function UserProfile({ alertMe }) {
               </span>
               <span className={styles.email}>{auth.email}</span>
             </div>
-          </div>
+            </>
+          // </div>
         )}
         <LoginBtn alertMe={alertMe} />
       </div>
