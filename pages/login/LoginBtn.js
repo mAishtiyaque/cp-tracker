@@ -5,7 +5,7 @@ import SignInPage from "./signIn";
 export default function LoginBtn({ alertMe }) {
     const [pageName, setPageName] = useState('signin');
     const auth = useAuth()
-    let [authPageShow, setAuthPageShow] = useState(true);
+    let [authPageShow, setAuthPageShow] = useState(false);
     const showDialog = () => {
         if (auth.email) {
             auth.SignOut()
