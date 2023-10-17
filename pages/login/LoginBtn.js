@@ -5,7 +5,7 @@ import SignInPage from "./signIn";
 export default function LoginBtn({ alertMe }) {
     const [pageName, setPageName] = useState('signin');
     const auth = useAuth()
-    let [authPageShow, setAuthPageShow] = useState(false);
+    let [authPageShow, setAuthPageShow] = useState(true);
     const showDialog = () => {
         if (auth.email) {
             auth.SignOut()
@@ -29,7 +29,11 @@ export default function LoginBtn({ alertMe }) {
             {authPageShow &&
                 <div className='mmodal' id="modal_1">
                     <div className="mmodal-body">
-                        <div className="close"> <button onClick={closeDialog}>X</button></div>
+                        <div className="close">
+                            <span>CP Tracker</span>
+                            <button onClick={closeDialog}>
+                            <span>  &#10008;</span>
+                            </button></div>
                         <div className="hello" >
                             {pageName === 'emailverify' &&
                                 // <app-verify-email ></app-verify-email >
